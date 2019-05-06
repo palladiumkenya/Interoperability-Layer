@@ -1,15 +1,12 @@
 {
   "development": {
     "username": "sa",
-    "password": "c0nstella",
-    "database": "interopdb",
+    "password": "M@un1983",
+    "database": "interopdbDev",
     "host": "localhost",
     "dialect": "mssql",
-    "logging": false,
-    "operatorsAliases": false,
-    "options": {
-      "instanceName": "SQLEXPRESS"
-    }
+    "logging": true,
+    "operatorsAliases": false
   },
   "test": {
     "dialect": "sqlite",
