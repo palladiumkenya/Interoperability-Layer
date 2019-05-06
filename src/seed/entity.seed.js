@@ -49,7 +49,7 @@ export const entities = [
   {
     id: 47,
     name: 'KP SYSTEM',
-    color: 'pink',
+    color: 'brown',
     description: 'Key Population services system',
     status: 'INACTIVE'
   }

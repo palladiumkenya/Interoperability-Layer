@@ -76,7 +76,7 @@ export const createOrUpdate = (context, values, condition) => {
     .findOne({ where: condition })
     .then(function (obj) {
       if (obj) { // update
-        logger.info(`Updating Entities...`)
+        logger.info(`Updating Entities...${values.id}`)
         return obj.update(values)
       } else { // insert
         logger.info(`Creating NEW Entities...`)
