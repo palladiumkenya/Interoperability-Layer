@@ -1,5 +1,6 @@
 import models from '../models'
 import { getDayOfWeek } from '../routes/DAD/message.manipulation'
+import { logger } from '../utils/logger.utils'
 
 export const getSubscribedEntities = async messageType => {
   const entities = await messageType.getEntities({
@@ -64,4 +65,18 @@ export const updateStats = async messageType => {
     )
   ])
   return updatedStats
+}
+
+export const createOrUpdate = (context, values, condition) => {
+  return context
+    .findOne({ where: condition })
+    .then(function (obj) {
+      if (obj) { // update
+        logger.info(`Updating Entities...`)
+        return obj.update(values)
+      } else { // insert
+        logger.info(`Creating NEW Entities...`)
+        return models.Entity.create(values)
+      }
+    })
 }
