@@ -67,6 +67,10 @@ export const updateStats = async messageType => {
   return updatedStats
 }
 
+export const bulkCreateOrUpdate = (context, values) => {
+  values.forEach(v => createOrUpdate(context, v, { id: v.id }))
+}
+
 export const createOrUpdate = (context, values, condition) => {
   return context
     .findOne({ where: condition })
