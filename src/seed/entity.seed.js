@@ -1,9 +1,7 @@
 import models from '../models'
-import { createOrUpdate } from '../lib/db.manipulation'
+import { bulkCreateOrUpdate } from '../lib/db.manipulation'
 
-export const seedEntities = () => {
-  entities.forEach(e => createOrUpdate(models.Entity, e, { id: e.id }))
-}
+export const seedEntities = () => bulkCreateOrUpdate(models.Entity, entities)
 
 export const entities = [
   {
