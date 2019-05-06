@@ -5,7 +5,7 @@ export const seedaddressMappings = () => models.AddressMapping.bulkCreate(addres
 export const addressMappings = [
   {
     id: 1,
-    protocol: 'HTTP',
+    protocol: 'HTTPS',
     address:
       'https://test.hiskenya.org/kenya/api/27/dataValueSets?dataElementIdScheme=code&orgUnitIdScheme=code&importStrategy=CREATE_AND_UPDATE&dryRun=false&datasetAllowsPeriods=true&strictOrganisationUnits=true&strictPeriods=true',
     status: 'ACTIVE',
