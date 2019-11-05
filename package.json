@@ -64,6 +64,7 @@
     "ping": "0.2.2",
     "pm2": "2.10.4",
     "sequelize": "4.4.2",
+    "sequelize-cli": "^5.5.1",
     "tedious": "2.1.5",
     "vision": "4.1.1"
   },

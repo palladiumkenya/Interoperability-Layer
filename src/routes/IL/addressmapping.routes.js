@@ -97,7 +97,7 @@ exports.register = (server, options, next) => {
           !request.payload.address.includes('http')
             ? {
               ...request.payload,
-              address: `http://${request.payload.address}`
+              address: request.payload.hasHttps ? `https://${request.payload.address}` : `http://${request.payload.address}`
             }
             : request.payload
         const addressMapping = await models.AddressMapping.create(data)

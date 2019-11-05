@@ -77,7 +77,8 @@ export const saveJSONToQueue = async payload => {
       sendDetails: receivedMsgLog,
       noOfAttempts: 0,
       EntityId: msgRecepient.id,
-      status: 'QUEUED'
+      status: 'QUEUED',
+      priority: messageType.priority
     })
   }
   await updateMsgStats('QUEUED')

@@ -14,7 +14,7 @@ export const initializeDb = async (options = { force: false }) => {
     await models.sequelize.sync(options)
     const totalEntities = await models.Entity.count()
 
-    if (parseInt(totalEntities, 2)) {
+    if (totalEntities) {
       message.level = 'info'
       message.msg = `Data seeding skipped`
     } else {

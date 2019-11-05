@@ -29,7 +29,6 @@
     }
   ],
   "registrations": [
-    { "plugin": { "register": "nes" } },
     { "plugin": { "register": "blipp" } },
     { "plugin": { "register": "inert" } },
     { "plugin": { "register": "vision" } },
