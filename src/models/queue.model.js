@@ -23,8 +23,8 @@ module.exports = function (sequelize, DataTypes) {
     sendDetails: DataTypes.TEXT('long'),
     priority: {
       type: DataTypes.ENUM,
-      values: [1, 2, 3],
-      defaultValue: 1
+      values: ['1', '2', '3'],
+      defaultValue: '3'
     }
   }, {
     tableName: 'queue'

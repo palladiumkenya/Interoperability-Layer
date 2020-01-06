@@ -1,5 +1,5 @@
 {
-  "development": {
+  "production": {
     "username": "sa",
     "password": "c0nstella",
     "database": "interopdb",
@@ -23,11 +23,12 @@
       "idle": "10000"
     }
   },
-  "production": {
-    "username": "sa",
-    "password": "maun",
-    "database": "interopdb_dev",
+  "development": {
+    "username": "root",
+    "password": "Naomi@123",
+    "database": "interopdb_kibera",
     "host": "localhost",
+    "port": 3308,
     "dialect": "mysql",
     "logging": false,
     "operatorsAliases": false
