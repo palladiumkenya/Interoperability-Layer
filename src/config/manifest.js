@@ -20,6 +20,7 @@ const manifest = {
   'connections': [
     {
       'port': 5000,
+      'tls': tlsOptions,
       'labels': ['web-ui']
     },
     {
