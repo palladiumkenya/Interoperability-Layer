@@ -54,7 +54,7 @@
     "dateformat": "3.0.3",
     "es6-promise": "4.2.4",
     "glue": "4.0.0",
-    "hapi": "16.5.0",
+    "hapi": "npm:@hapi/hapi@19.1.1",
     "inert": "4.2.1",
     "isomorphic-fetch": "2.2.1",
     "jsontoxml": "0.1.0",
@@ -63,6 +63,7 @@
     "ping": "0.2.2",
     "pm2": "2.10.4",
     "sequelize": "4.4.2",
+    "sequelize-cli": "^5.5.1",
     "tedious": "2.1.5",
     "vision": "4.1.1"
   },

@@ -5,16 +5,22 @@ import { seedStats } from './stats.seed'
 import { seedLabCodes } from './labcode.seed'
 import { seedSettings } from './settings.seed'
 import { seedaddressMappings } from './addressmapping.seed'
+import { logger } from '../utils/logger.utils'
 
 import models from '../models'
 
 export const initializeDb = async (options = { force: false }) => {
   let message = { level: '', msg: '' }
   try {
-    await models.sequelize.sync(options)
+    await models.sequelize.sync({
+      force: false,
+      logging: (t) => {
+        logger.info(t)
+      }
+    })
     const totalEntities = await models.Entity.count()
 
-    if (parseInt(totalEntities, 2)) {
+    if (totalEntities) {
       message.level = 'info'
       message.msg = `Data seeding skipped`
     } else {

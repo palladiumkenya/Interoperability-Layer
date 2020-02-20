@@ -51,7 +51,7 @@ const processAllQueued = async () => {
   let queuedMessages = await models.Queue.findAll({
     where: { status: 'QUEUED' },
     limit,
-    order: [['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
+    order: [['priority', 'ASC'], ['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
   })
 
   let queuedMessagesFirstHalf = queuedMessages.splice(
