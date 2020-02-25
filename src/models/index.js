@@ -24,19 +24,9 @@ const defaults = {
 }
 
 let prodConfig = {}
-if (platform === 'windows') {
-  prodConfig = {
-    ...defaults,
-    dialect: 'mssql',
-    options: {
-      instanceName: process.env.SERVER_PROP
-    }
-  }
-} else {
-  prodConfig = {
-    ...defaults,
-    dialect: 'mysql'
-  }
+prodConfig = {
+  ...defaults,
+  dialect: 'mysql'
 }
 
 const sequelize = process.env.USERNAME_PROP
