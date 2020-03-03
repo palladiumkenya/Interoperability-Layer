@@ -42,7 +42,10 @@
     "mocha": "5.1.1",
     "nodemon": "1.10.0",
     "nyc": "11.8.0",
-    "rimraf": "2.6.2"
+    "rimraf": "2.6.2",
+    "sequelize-test-helpers": "^1.2.2",
+    "should": "^13.2.3",
+    "sinon": "^9.0.0"
   },
   "dependencies": {
     "base-64": "0.1.0",
@@ -50,6 +53,7 @@
     "boom": "5.2.0",
     "bunyan": "1.8.12",
     "bunyan-format": "0.2.1",
+    "chai-json": "^1.0.0",
     "create-react-native-app": "1.0.0",
     "dateformat": "3.0.3",
     "es6-promise": "4.2.4",
@@ -65,6 +69,7 @@
     "pm2": "2.10.4",
     "sequelize": "4.4.2",
     "sequelize-cli": "^5.5.1",
+    "sinon-chai": "^3.5.0",
     "tedious": "2.1.5",
     "vision": "4.1.1"
   },
