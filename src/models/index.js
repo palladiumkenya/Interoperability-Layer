@@ -3,40 +3,11 @@
 import fs from 'fs'
 import path from 'path'
 import Sequelize from 'sequelize'
-
-const env = process.env.NODE_ENV || 'development'
-const platform = process.env.PLATFORM || 'windows'
+const env = 'development'
 
 const config = require(path.join(__dirname, '..', 'config', 'config.json'))[env]
-const defaults = {
-  username: process.env.USERNAME_PROP,
-  password: process.env.PASSWORD_PROP,
-  database: process.env.DATABASE_PROP,
-  host: 'localhost',
-  logging: true,
-  operatorsAliases: false,
-  pool: {
-    max: 10,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-}
 
-let prodConfig = {}
-prodConfig = {
-  ...defaults,
-  dialect: 'mysql'
-}
-
-const sequelize = process.env.USERNAME_PROP
-  ? new Sequelize(
-    prodConfig.database,
-    prodConfig.username,
-    prodConfig.password,
-    prodConfig
-  )
-  : new Sequelize(config.database, config.username, config.password, config)
+const sequelize = new Sequelize(config.database, config.username, config.password, config)
 
 const db = {}
 
