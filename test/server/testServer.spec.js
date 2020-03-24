@@ -14,16 +14,19 @@ export const testServer = async () => {
 
 
     try {
-        process.on('SIGTERM', err => {
+
+      
+   /*     process.on('SIGTERM', err => {
             // logger.error(err)
             process.exit(1)
-        })
+        }) */
 
         const server = await Glue.compose(manifest, options)
 
-        await server.start();
+      await server.start();
+    
         describe('GET /api/entities', async () => {
-            const server = await testServer()
+        //    const server = await testServer()
             const request = {
                 method: 'GET',
                 url: '/api/entities'
