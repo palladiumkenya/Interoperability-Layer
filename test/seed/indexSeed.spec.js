@@ -14,10 +14,7 @@ const {
     assert
 } = require('chai');
 describe('Seeding of data', () => {
-
-
-    try {
-
+    beforeEach(done => {
         models.sequelize.sync({
             force: false,
             logging: (t) => {
@@ -25,21 +22,13 @@ describe('Seeding of data', () => {
 
             }
         }).then(() => {
-            const totalEntities = models.Entity.count()
+
+            const totalEntities = models.Entity.count();
             assert.isDefined(totalEntities);
+            done();
+
         })
 
-        // const totalEntities = await models.Entity.count();
-        // assert.isDefined(totalEntities);
+    });
 
-
-
-
-
-
-
-
-    } catch (error) {
-
-    }
 });

@@ -1,99 +1,99 @@
 {
-  "name": "interoperability-layer-api",
-  "version": "1.0.0",
-  "description": "The backend API for the IL(Interoperability Layer) Manager",
-  "main": "src/server/index.js",
-  "scripts": {
-    "commit": "git-cz",
-    "check-coverage": "nyc check-coverage --statements 70 --branches 70 --functions 70 --lines 70",
-    "report-coverage": "cat ./coverage/lcov.info | codecov",
-    "test:watch": "yarn test -- -w",
-    "test": "mocha test/**/*.spec.js --recursive --require babel-register",
-    "pretest": "set NODE_ENV=test",
-    "cover": "nyc npm t",
-    "start": "nodemon src/server/index.js --ignore test/ --ignore './logs*.json' --watch src/* --exec babel-node --presets es2015,stage-3",
-    "prebuild": "rimraf dist",
-    "postbuild": "cp -Rf build dist/ && tar -zcvf dist.tar.gz dist && yarn install --force",
-    "build": "babel --copy-files --out-dir dist/src src && npm run prep:dependencies",
-    "prep:dependencies": "yarn install --production --ignore-scripts --prefer-offline && cp -Rf node_modules dist/node_modules --verbose",
-    "serve": "node dist/src/server/index.js"
-  },
-  "author": "Teddy Odhiambo <tedb19@gmail.com>",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-cli": "6.11.4",
-    "babel-plugin-transform-async-to-generator": "6.24.1",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-preset-es2015": "6.9.0",
-    "babel-preset-stage-3": "6.24.1",
-    "babel-register": "6.11.6",
-    "chai": "4.1.2",
-    "commitizen": "2.9.6",
-    "cpx": "1.5.0",
-    "cz-conventional-changelog": "2.1.0",
-    "eslint": "4.19.1",
-    "eslint-config-prettier": "2.9.0",
-    "eslint-config-standard": "11.0.0",
-    "eslint-plugin-import": "2.10.0",
-    "eslint-plugin-node": "6.0.1",
-    "eslint-plugin-promise": "3.7.0",
-    "eslint-plugin-standard": "3.0.1",
-    "ghooks": "2.0.4",
-    "mocha": "5.1.1",
-    "nodemon": "1.10.0",
-    "nyc": "11.8.0",
-    "rimraf": "2.6.2",
-    "sequelize-test-helpers": "^1.2.2",
-    "should": "^13.2.3",
-    "sinon": "^9.0.0"
-  },
-  "dependencies": {
-    "base-64": "0.1.0",
-    "blipp": "2.3.0",
-    "boom": "5.2.0",
-    "bunyan": "1.8.12",
-    "bunyan-format": "0.2.1",
-    "chai-json": "^1.0.0",
-    "create-react-native-app": "1.0.0",
-    "dateformat": "3.0.3",
-    "es6-promise": "4.2.4",
-    "glue": "4.0.0",
-    "hapi": "16.5.0",
-    "inert": "4.2.1",
-    "isomorphic-fetch": "2.2.1",
-    "jsontoxml": "0.1.0",
-    "lout": "10.0.2",
-    "mysql2": "1.5.3",
-    "nes": "9.0.1",
-    "ping": "0.2.2",
-    "pm2": "2.10.4",
-    "sequelize": "4.4.2",
-    "sequelize-cli": "^5.5.1",
-    "sinon-chai": "^3.5.0",
-    "tedious": "2.1.5",
-    "vision": "4.1.1"
-  },
-  "config": {
-    "ghooks": {
-      "pre-commit": ""
+    "name": "interoperability-layer-api",
+    "version": "1.0.0",
+    "description": "The backend API for the IL(Interoperability Layer) Manager",
+    "main": "src/server/index.js",
+    "scripts": {
+        "commit": "git-cz",
+        "check-coverage": "nyc check-coverage --statements 70 --branches 70 --functions 70 --lines 70",
+        "report-coverage": "cat ./coverage/lcov.info | codecov",
+        "test:watch": "yarn test -- -w",
+        "test": "mocha \"test/**/*.spec.js\" --watch --compilers js:babel-core/register --recursive   --compilers js:babel-core/register -R spec",
+        "pretest": "set NODE_ENV=test",
+        "cover": "nyc npm t",
+        "start": "nodemon src/server/index.js --ignore  test/ --ignore './logs*.json' --watch src/* --exec babel-node --presets es2015,stage-3",
+        "prebuild": "rimraf dist",
+        "postbuild": "cp -Rf build dist/ && tar -zcvf dist.tar.gz dist && yarn install --force",
+        "build": "babel --copy-files --out-dir dist/src src && npm run prep:dependencies",
+        "prep:dependencies": "yarn install --production --ignore-scripts --prefer-offline && cp -Rf node_modules dist/node_modules --verbose",
+        "serve": "node dist/src/server/index.js"
     },
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
+    "author": "Teddy Odhiambo <tedb19@gmail.com>",
+    "license": "ISC",
+    "devDependencies": {
+        "babel-cli": "6.11.4",
+        "babel-plugin-transform-async-to-generator": "6.24.1",
+        "babel-plugin-transform-runtime": "6.23.0",
+        "babel-preset-es2015": "6.9.0",
+        "babel-preset-stage-3": "6.24.1",
+        "babel-register": "6.11.6",
+        "chai": "4.1.2",
+        "commitizen": "2.9.6",
+        "cpx": "1.5.0",
+        "cz-conventional-changelog": "2.1.0",
+        "eslint": "4.19.1",
+        "eslint-config-prettier": "2.9.0",
+        "eslint-config-standard": "11.0.0",
+        "eslint-plugin-import": "2.10.0",
+        "eslint-plugin-node": "6.0.1",
+        "eslint-plugin-promise": "3.7.0",
+        "eslint-plugin-standard": "3.0.1",
+        "ghooks": "2.0.4",
+        "mocha": "5.1.1",
+        "nodemon": "1.10.0",
+        "nyc": "11.8.0",
+        "rimraf": "2.6.2",
+        "sequelize-test-helpers": "^1.2.2",
+        "should": "^13.2.3",
+        "sinon": "^9.0.0"
+    },
+    "dependencies": {
+        "base-64": "0.1.0",
+        "blipp": "2.3.0",
+        "boom": "5.2.0",
+        "bunyan": "1.8.12",
+        "bunyan-format": "0.2.1",
+        "chai-json": "^1.0.0",
+        "create-react-native-app": "1.0.0",
+        "dateformat": "3.0.3",
+        "es6-promise": "4.2.4",
+        "glue": "4.0.0",
+        "hapi": "16.5.0",
+        "inert": "4.2.1",
+        "isomorphic-fetch": "2.2.1",
+        "jsontoxml": "0.1.0",
+        "lout": "10.0.2",
+        "mysql2": "1.5.3",
+        "nes": "9.0.1",
+        "ping": "0.2.2",
+        "pm2": "2.10.4",
+        "sequelize": "4.4.2",
+        "sequelize-cli": "^5.5.1",
+        "sinon-chai": "^3.5.0",
+        "tedious": "2.1.5",
+        "vision": "4.1.1"
+    },
+    "config": {
+        "ghooks": {
+            "pre-commit": ""
+        },
+        "commitizen": {
+            "path": "node_modules/cz-conventional-changelog"
+        }
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "logs*",
+            "README.md"
+        ]
+    },
+    "babel": {
+        "presets": [
+            "stage-3",
+            "es2015"
+        ],
+        "plugins": [
+            "transform-runtime"
+        ]
     }
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "logs*",
-      "README.md"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "stage-3",
-      "es2015"
-    ],
-    "plugins": [
-      "transform-runtime"
-    ]
-  }
 }
