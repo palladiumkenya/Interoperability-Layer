@@ -5,15 +5,16 @@ import {
     testServer
 } from '../server/testServer.spec'
 
+console.log(testServer);
 describe('GET /api/entities', async () => {
     const server = await testServer()
     const request = {
         method: 'GET',
         url: '/api/entities'
     }
-    it('describe the entity',()=>{
+    it('describe the entity', () => {
         expect(1).to.be.equal(1);
-        })
+    })
 
     it('returns HTTP Status Code 200', done => {
         server.select('IL').inject(request, response => {

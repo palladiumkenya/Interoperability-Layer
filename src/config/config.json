@@ -22,10 +22,10 @@
   },
   "development": {
     "username": "root",
-    "password": "Naomi@123",
-    "database": "interopdb_kibera",
+    "password": "home",
+    "database": "interopdb",
     "host": "localhost",
-    "port": 3308,
+    "port": 3306,
     "dialect": "mysql",
     "logging": false,
     "operatorsAliases": false
