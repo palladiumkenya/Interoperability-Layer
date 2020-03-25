@@ -11,19 +11,20 @@
         }
     },
     "connections": [{
-            "port": 5000,
+        
+            "port": 6000,
             "labels": ["web-ui"]
         },
         {
-            "port": 3003,
+            "port": 6003,
             "labels": ["IL"]
         },
         {
-            "port": 3007,
+            "port": 6007,
             "labels": ["VL"]
         },
         {
-            "port": 9721,
+            "port": 6721,
             "labels": ["DAD"]
         }
     ],
