@@ -23,7 +23,7 @@ export const testServer = async () => {
 
         await server.start();
         describe('GET /api/entities', async () => {
-            const server = await testServer()
+            //const server = await testServer()
             const request = {
                 method: 'GET',
                 url: '/api/entities'
