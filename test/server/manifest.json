@@ -15,15 +15,15 @@
             "labels": ["web-ui"]
         },
         {
-            "port": 4003,
+            "port": 3003,
             "labels": ["IL"]
         },
         {
-            "port": 4007,
+            "port": 3007,
             "labels": ["VL"]
         },
         {
-            "port": 7721,
+            "port": 9721,
             "labels": ["DAD"]
         }
     ],
