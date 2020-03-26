@@ -2,11 +2,12 @@ import {
     expect
 } from 'chai'
 import {
-    testServer
+    testServer,server
 } from '../server/testServer.spec'
 
 describe('GET /api/entities', async () => {
-    const server = await testServer()
+    const server = server;
+
 
     console.log('server');
    
