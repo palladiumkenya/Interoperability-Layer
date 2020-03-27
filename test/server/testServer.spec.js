@@ -12,13 +12,18 @@ export const testServer = async () => {
     process.on('SIGTERM', err => {
       // logger.error(err)
       process.exit(1)
-    })
+    });
+    const server = await Glue.compose(manifest, options)
+    // const server = await testServer()
+ 
+ //   module.exports=server;
+    //console.log(server)
+  //  await server.start();
 
-     const server = await Glue.compose(manifest, options)
+    
 
-    await server.start()
 
-    describe('GET /api/entities', async () => {
+ /*   describe('GET /api/entities', async () => {
       //const server = await testServer()
       const request = {
         method: 'GET',
@@ -158,14 +163,14 @@ export const testServer = async () => {
           process.exit(1)
         }
       })
-    })
+    }) */
 
     return server
 
-    //  await server.start();
+     await server.start();
     console.log('server has started')
   } catch (err) {
     console.error(err)
     process.exit(1)
   }
-}
+} 

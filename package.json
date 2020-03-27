@@ -8,7 +8,7 @@
     "check-coverage": "nyc check-coverage --statements 70 --branches 70 --functions 70 --lines 70",
     "report-coverage": "cat ./coverage/lcov.info | codecov",
     "test:watch": "yarn test -- -w",
-    "test": "mocha  \"test/**/*.spec.js\" --exit --recursive --require babel-register",
+    "test": "mocha  \"test/**/*.spec.js\" --Exit --recursive --require babel-register",
     "pretest": "set NODE_ENV=test",
     "cover": "nyc npm t",
     "start": "nodemon src/server/index.js --ignore test/ --ignore './logs*.json' --watch src/* --exec babel-node --presets es2015,stage-3",
