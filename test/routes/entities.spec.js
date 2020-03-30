@@ -17,7 +17,7 @@ describe('GET /api/entities', async () => {
     server.select('IL').inject(request, response => {
       expect(JSON.parse(response.statusCode)).to.equal(200)
 
-      done()
+      done();
     })
   })
 
@@ -49,7 +49,7 @@ describe('/api/entities/{id}', async () => {
     server.select('IL').inject(request2, response => {
       expect(JSON.parse(response.statusCode)).to.equal(200)
 
-      done()
+      done();
     })
   })
   it('returns values as empty if entity does not exist', done => {
@@ -66,7 +66,7 @@ describe('/api/entities/{id}', async () => {
   it('returns HTTP Status Code 200', done => {
     server.select('IL').inject(request, response => {
       expect(JSON.parse(response.statusCode)).to.equal(200)
-      done()
+      done();
     })
   })
 
@@ -95,7 +95,7 @@ describe('api/entities/subscriptions/', async () => {
   it('returns HTTP Status Code 200', done => {
     server.select('IL').inject(request, response => {
       expect(JSON.parse(response.statusCode)).to.equal(200)
-      done()
+      done();
     })
   })
   it('returns all subscriptions for a specific entity in this case IQCare', done => {
@@ -109,7 +109,7 @@ describe('api/entities/subscriptions/', async () => {
         //expect(array[0]['versboseName'].to).to.be.equal('PATIENT_REGISTRATION');
         console.log('Subscriptions')
         // console.log(array);
-        done()
+        done();
       })
     } catch (err) {
       console.log('Test Error', err)
