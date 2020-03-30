@@ -1,5 +1,5 @@
-describe('Payload convenience methods', () => {
-  describe('GetCCCNumber', () => {
-    it.skip('returns a valid CCC Number given a payload', () => {})
-  })
-})
+describe.skip('Payload convenience methods', () => {
+    describe.skip('GetCCCNumber', () => {
+        it.skip('returns a valid CCC Number given a payload', () => {})
+    })
+});
