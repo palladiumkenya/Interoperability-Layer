@@ -12,17 +12,17 @@ describe('api/addresses', async () => {
         url: '/api/addresses'
     }
 
-    it('returns HTTP Status Code 200', done => {
+    it('returns HTTP Status Code 200', () => {
 
         if (server != undefined) {
             server.select('IL').inject(request, response => {
                 expect(JSON.parse(response.statusCode)).to.equal(200)
-                done();
+               
             })
         }
     })
 
-    it('returns list of addresses', done => {
+    it('returns list of addresses', () => {
         try {
 
             if (server != undefined) {
@@ -30,7 +30,7 @@ describe('api/addresses', async () => {
                     expect(JSON.parse(response.payload)).to.be.an('array')
 
 
-                    done();
+
                 })
             }
         } catch (err) {
@@ -48,7 +48,7 @@ describe('api/activeSystems', async () => {
         url: '/api/activeSystems'
     }
 
-    it('returns list of activeSystems', done => {
+    it('returns list of activeSystems', () => {
         try {
             if (server != undefined) {
                 server.select('IL').inject(request, response => {
@@ -56,11 +56,11 @@ describe('api/activeSystems', async () => {
                     //console.log(response.payload)
                     //console.log(JSON.parse(response.payload))
 
-                    done();
+
                 })
             }
         } catch (err) {
-            done(err);
+
             console.log('Test Error', err)
             process.exit(1)
         }

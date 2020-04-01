@@ -17,20 +17,20 @@ describe('GET /api/entities', async () => {
         expect(1).to.be.equal(1)
     })
 
-    it('returns HTTP Status Code 200', done => {
+    it('returns HTTP Status Code 200', () => {
         server.select('IL').inject(request, response => {
             expect(JSON.parse(response.statusCode)).to.equal(200)
 
-            done();
+
         })
     })
 
-    it('returns an array', done => {
+    it('returns an array', () => {
         try {
             server.select('IL').inject(request, response => {
                 expect(JSON.parse(response.payload)).to.be.an('array')
 
-                done()
+
             })
         } catch (err) {
             console.log('Test Error', err)
@@ -49,38 +49,38 @@ describe('/api/entities/{id}', async () => {
         method: 'GET',
         url: '/api/entities/25'
     }
-    it('returns HTTP Status Code 200 if it does not exist', done => {
+    it('returns HTTP Status Code 200 if it does not exist', () => {
         server.select('IL').inject(request2, response => {
             expect(JSON.parse(response.statusCode)).to.equal(200)
 
-            done();
+
         })
     })
-    it('returns values as empty if entity does not exist', done => {
+    it('returns values as empty if entity does not exist', () => {
         server.select('IL').inject(request2, response => {
             if (response.payload == '') {
                 expect(response.payload).to.be.equal('')
-                done()
+
             } else {
                 expect(JSON.parse(response.payload)).to.be.an(Object)
             }
         })
     })
 
-    it('returns HTTP Status Code 200', done => {
+    it('returns HTTP Status Code 200', () => {
         server.select('IL').inject(request, response => {
             expect(JSON.parse(response.statusCode)).to.equal(200)
-            done();
+
         })
     })
 
-    it('returns an object', done => {
+    it('returns an object', () => {
         try {
             server.select('IL').inject(request, response => {
                 expect(JSON.parse(response.payload)).to.be.an('object')
                 expect(JSON.parse(response.payload)).to.have.property('description')
 
-                done()
+
             })
         } catch (err) {
             console.log('Test Error', err)
@@ -107,7 +107,7 @@ describe('api/entities/subscriptions/', async () => {
             })
         }
     })
-    it('returns all subscriptions for a specific entity in this case IQCare', done => {
+    it('returns all subscriptions for a specific entity in this case IQCare', () => {
         try {
             if (server != undefined) {
                 server.select('IL').inject(request, response => {
@@ -119,12 +119,12 @@ describe('api/entities/subscriptions/', async () => {
                     //expect(array[0]['versboseName'].to).to.be.equal('PATIENT_REGISTRATION');
                     console.log('Subscriptions')
                     // console.log(array);
-                    done();
+
                 })
             }
         } catch (err) {
             console.log('Test Error', err)
-            done(err);
+
             process.exit(1)
         }
     })

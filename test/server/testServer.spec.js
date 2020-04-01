@@ -22,7 +22,7 @@ export const testServer = async () => {
         
         return server
 
-        await server.start();
+       await server.start();
 
         console.log('server has started')
 
