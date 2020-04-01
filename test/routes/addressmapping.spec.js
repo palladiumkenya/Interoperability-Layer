@@ -14,27 +14,27 @@ describe('api/addresses', async () => {
 
     it('returns HTTP Status Code 200', () => {
 
-        if (server != undefined) {
-            server.select('IL').inject(request, response => {
-                expect(JSON.parse(response.statusCode)).to.equal(200)
-               
-            })
-        }
+
+        server.select('IL').inject(request, response => {
+            expect(JSON.parse(response.statusCode)).to.equal(200)
+
+        })
+
     })
 
     it('returns list of addresses', () => {
         try {
 
-            if (server != undefined) {
-                server.select('IL').inject(request, response => {
-                    expect(JSON.parse(response.payload)).to.be.an('array')
+
+            server.select('IL').inject(request, response => {
+                expect(JSON.parse(response.payload)).to.be.an('array')
 
 
 
-                })
-            }
+            })
+
         } catch (err) {
-            done(err);
+
             console.log('Test Error', err)
             process.exit(1)
         }
@@ -50,15 +50,15 @@ describe('api/activeSystems', async () => {
 
     it('returns list of activeSystems', () => {
         try {
-            if (server != undefined) {
-                server.select('IL').inject(request, response => {
-                    expect(JSON.parse(response.payload)).to.be.an('array')
-                    //console.log(response.payload)
-                    //console.log(JSON.parse(response.payload))
+
+            server.select('IL').inject(request, response => {
+                expect(JSON.parse(response.payload)).to.be.an('array')
+                //console.log(response.payload)
+                //console.log(JSON.parse(response.payload))
 
 
-                })
-            }
+            })
+
         } catch (err) {
 
             console.log('Test Error', err)

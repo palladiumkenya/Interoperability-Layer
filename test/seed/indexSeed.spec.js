@@ -25,6 +25,7 @@ describe('Seeding of data', () => {
 
             const totalEntities = models.Entity.count();
             assert.isDefined(totalEntities);
+            console.log('Totalentities: ' + totalEntities);
             done();
 
         })

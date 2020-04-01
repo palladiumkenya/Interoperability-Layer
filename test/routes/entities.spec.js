@@ -98,30 +98,30 @@ describe('api/entities/subscriptions/', async () => {
         url: '/api/entities/subscriptions/IQCare'
     }
 
-    it('returns HTTP Status Code 200', done => {
+    it('returns HTTP Status Code 200', () => {
 
-        if (server != undefined) {
-            server.select('IL').inject(request, response => {
-                expect(JSON.parse(response.statusCode)).to.equal(200)
-                done();
-            })
-        }
+
+        server.select('IL').inject(request, response => {
+            expect(JSON.parse(response.statusCode)).to.equal(200)
+
+        })
+
     })
     it('returns all subscriptions for a specific entity in this case IQCare', () => {
         try {
-            if (server != undefined) {
-                server.select('IL').inject(request, response => {
-                    expect(JSON.parse(response.payload)).to.be.an('array')
-                    let array = JSON.parse(response.payload)
-                    expect(array[0].verboseName.toString()).to.be.equal(
-                        'PATIENT_REGISTRATION'
-                    )
-                    //expect(array[0]['versboseName'].to).to.be.equal('PATIENT_REGISTRATION');
-                    console.log('Subscriptions')
-                    // console.log(array);
 
-                })
-            }
+            server.select('IL').inject(request, response => {
+                expect(JSON.parse(response.payload)).to.be.an('array')
+                let array = JSON.parse(response.payload)
+                expect(array[0].verboseName.toString()).to.be.equal(
+                    'PATIENT_REGISTRATION'
+                )
+                //expect(array[0]['versboseName'].to).to.be.equal('PATIENT_REGISTRATION');
+                console.log('Subscriptions')
+                // console.log(array);
+
+            })
+
         } catch (err) {
             console.log('Test Error', err)
 
