@@ -11,7 +11,7 @@
         }
     },
     "connections": [{
-        
+
             "port": 6000,
             "labels": ["web-ui"]
         },

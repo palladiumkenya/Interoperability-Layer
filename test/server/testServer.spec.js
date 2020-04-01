@@ -20,13 +20,14 @@ export const testServer = async () => {
         });
         const server = await Glue.compose(manifest, options)
         
+        return server
+
         await server.start();
 
         console.log('server has started')
 
 
-        return server
-
+    
 
     } catch (err) {
         console.error(err)
