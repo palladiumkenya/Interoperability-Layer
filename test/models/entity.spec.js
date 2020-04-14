@@ -21,18 +21,16 @@ const {
     checkPropertyExists
 } = require('sequelize-test-helpers')
 
-describe('EntityModel', () => {
-    const Model = entitymodel(sequelize, dataTypes);
+describe('EntityModel', async () => {
 
-   /* const instance = new Model();
-    checkModelName(Model)('Entity');
-    describe('properties', () => {
-        
-        ['name', 'description', 'status', 'color'].forEach(
-            checkPropertyExists(instance)
-        )
-    });
- */
+    const Model = await entitymodel(sequelize, dataTypes);
+    const instance = new Model();
+    await checkModelName(Model)('Entity');
+    ['name', 'description', 'status', 'color'].forEach(
+        checkPropertyExists(instance)
+    )
+
+
     context('associations', () => {
         const addressmap = addressmappingmodel(sequelize, dataTypes)
         const QueueMap = Queuemappingmodel(sequelize, dataTypes)
