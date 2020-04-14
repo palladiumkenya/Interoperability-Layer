@@ -27,7 +27,7 @@ describe('EntityModel', () => {
     const instance = new Model();
     checkModelName(Model)('Entity');
 
-    desciber('properties', () => {
+    describe('properties', () => {
         ['name', 'description', 'status', 'color'].forEach(
             checkPropertyExists(instance));
     });
