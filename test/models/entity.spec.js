@@ -24,16 +24,15 @@ const {
 describe('EntityModel', () => {
     const Model = entitymodel(sequelize, dataTypes);
 
-    const instance = new Model();
-
-    //checkModelName(Model)('Entity');
+   /* const instance = new Model();
+    checkModelName(Model)('Entity');
     describe('properties', () => {
         
         ['name', 'description', 'status', 'color'].forEach(
             checkPropertyExists(instance)
         )
     });
-
+ */
     context('associations', () => {
         const addressmap = addressmappingmodel(sequelize, dataTypes)
         const QueueMap = Queuemappingmodel(sequelize, dataTypes)
