@@ -32,13 +32,10 @@ describe('EntityModel', () => {
              ['name', 'description', 'status', 'color'].forEach(
                  checkPropertyExists(instance));
          });
-    } catch (err) {
-        console.log('Entity Model Test Error', err)
-        process.exit(1)
-    }
+    
 
 
-    /*  context('associations', () => {
+     context('associations', () => {
           const addressmap = addressmappingmodel(sequelize, dataTypes)
           const QueueMap = Queuemappingmodel(sequelize, dataTypes)
           const Subcriberm = SubcriberModel(sequelize, dataTypes)
@@ -64,5 +61,9 @@ describe('EntityModel', () => {
               )
           })
       })
-      */
+    } catch (err) {
+        console.log('Entity Model Test Error', err)
+        process.exit(1);
+    }
+      
 })
