@@ -21,17 +21,17 @@ const {
     checkPropertyExists
 } = require('sequelize-test-helpers')
 
-describe.skip('EntityModel', () => {
+describe('EntityModel', () => {
 
     try {
         const Model = EntityModel(sequelize, dataTypes);
         const instance = new Model();
         checkModelName(Model)('Entity');
 
-        /* describe('properties', () => {
+         describe('properties', () => {
              ['name', 'description', 'status', 'color'].forEach(
                  checkPropertyExists(instance));
-         });*/
+         });
     } catch (err) {
         console.log('Entity Model Test Error', err)
         process.exit(1)
