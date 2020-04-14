@@ -23,6 +23,7 @@ const {
 
 describe('EntityModel', () => {
 
+    try {
     const Model = entitymodel(sequelize, dataTypes);
     const instance = new Model();
     checkModelName(Model)('Entity');
@@ -31,6 +32,12 @@ describe('EntityModel', () => {
         ['name', 'description', 'status', 'color'].forEach(
             checkPropertyExists(instance));
     });
+}
+catch(err)
+{
+    console.log('Entity Model Test Error', err)
+    process.exit(1)
+}
 
 
     /*  context('associations', () => {
