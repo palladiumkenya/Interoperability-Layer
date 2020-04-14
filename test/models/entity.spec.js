@@ -26,7 +26,7 @@ describe('EntityModel', () => {
 
     const instance = new Model();
 
-    checkModelName(Model)('Entity');
+    //checkModelName(Model)('Entity');
     describe('properties', () => {
         
         ['name', 'description', 'status', 'color'].forEach(
