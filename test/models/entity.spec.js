@@ -28,7 +28,7 @@ describe('EntityModel', () => {
 
     checkModelName(Model)('Entity');
     describe('properties', () => {
-        ;
+        
         ['name', 'description', 'status', 'color'].forEach(
             checkPropertyExists(instance)
         )

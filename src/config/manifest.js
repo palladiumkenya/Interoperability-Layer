@@ -20,12 +20,12 @@ const manifest = {
   'connections': [
     {
       'port': 5000,
-      'tls': tlsOptions,
+      //'tls': tlsOptions,
       'labels': ['web-ui']
     },
     {
       'port': 3003,
-      'tls': tlsOptions,
+     // 'tls': tlsOptions,
       'labels': ['IL']
     },
     {
@@ -34,7 +34,7 @@ const manifest = {
     },
     {
       'port': 9721,
-      'tls': tlsOptions,
+    //  'tls': tlsOptions,
       'labels': ['DAD']
     }
   ],
