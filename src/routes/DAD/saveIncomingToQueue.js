@@ -86,8 +86,8 @@ export const saveJSONToQueue = async payload => {
   return { CCCNumber, msgRecepients }
 }
 
-export const saveXMLToQueue = async payload => {
-  const messageTypeName = 'MOH731^ADX'
+export const saveXMLToQueue = async (payload, type) => {
+  const messageTypeName = type
   try {
     const messageType = await getMessageTypeObj(messageTypeName)
     const entities = await getSubscribedEntities(messageType)

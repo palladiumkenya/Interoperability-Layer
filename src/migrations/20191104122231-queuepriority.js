@@ -2,19 +2,17 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('queue', 'priority', {
-      type: Sequelize.ENUM(1, 2, 3),
-      allowNull: true
-    })
+    return queryInterface.describeTable('queue').then(tableDesc => {
+      if (tableDesc.priority) {
+        return Promise.resolve()
+      } else {
+        return queryInterface.addColumn('queue', 'priority', {
+          type: Sequelize.DataTypes.ENUM('1', '2', '3'),
+          allowNull: true
+        });
+      }
+    });
   },
 
-  down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.dropTable('users');
-    */
-  }
+  down: (queryInterface, Sequelize) => {}
 }
