@@ -9,10 +9,15 @@ import { logger } from '../utils/logger.utils'
 
 import models from '../models'
 
+import path from 'path'
+import Umzug from 'umzug'
+
 export const initializeDb = async (options = { force: false }) => {
   let message = { level: '', msg: '' }
+  const sequelize = models.sequelize;
+  const Sequelize = models.Sequelize;
   try {
-    await models.sequelize.sync({
+    await sequelize.sync({
       force: false,
       logging: (t) => {
         logger.info(t)
@@ -29,6 +34,17 @@ export const initializeDb = async (options = { force: false }) => {
       message.level = 'info'
       message.msg = 'All seed data saved successfully!'
     }
+
+    const umzug = new Umzug({
+      migrations: {
+        path: path.join(__dirname, './../migrations'),
+        params: [sequelize.getQueryInterface(), Sequelize]
+      },
+      storage: 'sequelize',
+      storageOptions: {sequelize: sequelize}
+    });
+    await umzug.up();
+    
   } catch (error) {
     message.level = 'error'
     message.msg = `Error seeding data: ${error}`

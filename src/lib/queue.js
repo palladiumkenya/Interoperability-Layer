@@ -207,14 +207,14 @@ const processQueued = async queue => {
       }
     } else {
       try {
+        const [entity] = await models.Entity.findAll({
+          where: { id: queue.EntityId }
+        })
         const [dhisUsername] = await models.Settings.findAll({
-          where: { description: 'DHIS2 Username' }
+          where: { description: entity.name + ' Username' }
         })
         const [dhisPassword] = await models.Settings.findAll({
-          where: { description: 'DHIS2 Password' }
-        })
-        const [entity] = await models.Entity.findAll({
-          where: { name: 'DHIS2' }
+          where: { description: entity.name + ' Password' }
         })
         const [address] = await models.AddressMapping.findAll({
           where: { EntityId: entity.id }
@@ -231,7 +231,7 @@ const processQueued = async queue => {
         )
 
         if (response.ok) {
-          let sentLog = `MOH 731 ADX message sent to ${
+          let sentLog = `ADX message sent to ${
             entity.name
           } successfully! Total send attempts: ${queue.noOfAttempts + 1}.`
           const statsChanges = [
@@ -253,12 +253,12 @@ const processQueued = async queue => {
         }
       } catch (error) {
         const [entity] = await models.Entity.findAll({
-          where: { name: 'DHIS2' }
+          where: { id: queue.EntityId }
         })
         const [address] = await models.AddressMapping.findAll({
           where: { EntityId: entity.id }
         })
-        let queueLog = `An attempt was made to send MOH 731 ADX message to ${
+        let queueLog = `An attempt was made to send ADX message to ${
           entity.name
         } (Address: ${
           address.address

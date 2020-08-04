@@ -65,6 +65,7 @@
     "sequelize": "4.4.2",
     "sequelize-cli": "^5.5.1",
     "tedious": "2.1.5",
+    "umzug": "^2.3.0",
     "vision": "4.1.1"
   },
   "config": {
