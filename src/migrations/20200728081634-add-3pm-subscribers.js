@@ -1,22 +1,29 @@
 'use strict';
 
-import dateFormat from 'dateformat'
+import models from '../models'
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    const entityIds = await queryInterface.sequelize.query(`SELECT id FROM entities WHERE name = '3PM';`, { type: Sequelize.QueryTypes.SELECT });
-    const messageTypeIds = await queryInterface.sequelize.query(`SELECT id as id FROM messagetypes WHERE name = '3PM^ADX';`, { type: Sequelize.QueryTypes.SELECT });
-    if(entityIds.length > 0 && messageTypeIds.length) {
-      let currentDate = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss');
-      return queryInterface.sequelize.query(`
-        INSERT INTO subscribers(status, EntityId, MessageTypeId, createdAt, updatedAt)
-        VALUES ('ACTIVE', ${entityIds[0].id}, ${messageTypeIds[0].id}, '${currentDate}', '${currentDate}');
-      `)
+  async up (queryInterface, Sequelize) {
+    const entity = await models.Entity.findOne({ where: { name: '3PM' }});
+    const messageType = await models.MessageType.findOne({ where: { name: '3PM^ADX' }});
+    if (entity.id && messageType.id) {
+      return await models.Subscriber.create({
+        status: 'ACTIVE',
+        EntityId: entity.id,
+        MessageTypeId: messageType.id
+      });
     } else {
-      return Promise.resolve();
+      return Promise.reject();
     }
   },
-  async down(queryInterface, Sequelize) {
-    return queryInterface.sequelize.query(`DELETE FROM subscribers WHERE description IN ('3PM Username', '3PM Password');`)
+
+  async down (queryInterface, Sequelize) {
+    const entity = await models.Entity.findOne({ where: { name: '3PM' }});
+    const messageType = await models.MessageType.findOne({ where: { name: '3PM^ADX' }});
+    if (entity.id && messageType.id) {
+      return await models.Subscriber.destroy({ where: { EntityId: entity.id, MessageTypeId: messageType.id }});
+    } else {
+      return Promise.reject();
+    }
   }
 };

@@ -1,28 +1,31 @@
 'use strict';
 
-import dateFormat from 'dateformat'
+import models from '../models'
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    const entityIds = await queryInterface.sequelize.query(`SELECT id FROM entities WHERE name = '3PM';`, { type: Sequelize.QueryTypes.SELECT });
-    if(entityIds.length > 0) {
-      let currentDate = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss');
-      return queryInterface.sequelize.query(`
-        INSERT INTO addressmappings(protocol, address, status, createdAt, updatedAt, EntityId)
-        VALUES (
-            'HTTP',
-            'https://3pm-test.globalhealthapp.net/dhis/api/dataValueSets?orgUnitIdScheme=code&importStrategy=CREATE_AND_UPDATE&dryRun=false&datasetAllowsPeriods=true&strictOrganisationUnits=true&strictPeriods=true',
-            'ACTIVE',
-            '${currentDate}',
-            '${currentDate}',
-            ${entityIds[0].id}
-        );
-      `)
+  async up (queryInterface, Sequelize) {
+    const entity = await models.Entity.findOne({ where: { name: '3PM' }});
+    if (entity.id) {
+      return await models.AddressMapping.create({
+        EntityId: entity.id,
+        protocol: 'HTTP',
+        address: 'https://3pm-test.globalhealthapp.net/dhis/api/dataValueSets?orgUnitIdScheme=code&importStrategy=CREATE_AND_UPDATE&dryRun=false&datasetAllowsPeriods=true&strictOrganisationUnits=true&strictPeriods=true',
+        status: 'ACTIVE'
+      });
     } else {
-      return Promise.resolve();
+      return Promise.reject();
     }
   },
-  async down(queryInterface, Sequelize) {
-    return queryInterface.sequelize.query(`DELETE FROM addressmappings WHERE description IN ('3PM Username', '3PM Password');`)
+
+  async down (queryInterface, Sequelize) {
+    const entity = await models.Entity.findOne({ where: { name: '3PM' }});
+    if (entity.id) {
+      return await models.AddressMapping.destroy({ where: {
+        EntityId: entity.id,
+        address: 'https://3pm-test.globalhealthapp.net/dhis/api/dataValueSets?orgUnitIdScheme=code&importStrategy=CREATE_AND_UPDATE&dryRun=false&datasetAllowsPeriods=true&strictOrganisationUnits=true&strictPeriods=true'
+      }});
+    } else {
+      return Promise.reject();
+    }
   }
 };

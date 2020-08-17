@@ -1,17 +1,16 @@
 'use strict';
 
-import dateFormat from 'dateformat'
+import models from '../models'
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    let currentDate = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss');
-    return queryInterface.sequelize.query(`
-      INSERT INTO settings(value, description, isUpdatable, display, createdAt, updatedAt)
-      VALUES (null, '3PM Username', '1', '1', '${currentDate}', '${currentDate}'), (null, '3PM Password', '1', '1', '${currentDate}', '${currentDate}');
-    `)
+  async up (queryInterface, Sequelize) {
+    return await models.Settings.bulkCreate([
+      { value: null, description: '3PM Username', isUpdatable: true, display: true },
+      { value: null, description: '3PM Password', isUpdatable: true, display: true },
+    ]);
   },
 
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.sequelize.query(`DELETE FROM settings WHERE description IN ('3PM Username', '3PM Password');`)
+  async down (queryInterface, Sequelize) {
+    return await models.Settings.destroy({ where: { name: ['3PM Username', '3PM Password'] }});
   }
 };
