@@ -1,24 +1,18 @@
 'use strict';
 
-import dateFormat from 'dateformat'
+import models from '../models'
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    let currentDate = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss');
-    return queryInterface.sequelize.query(`
-      INSERT INTO entities(name, description, status, color, createdAt, updatedAt)
-      VALUES (
-        '3PM',
-        'DHIS 2 lets you manage aggregate data with a flexible data model and advanced visualization features',
-        'INACTIVE',
-        'blue',
-        '${currentDate}',
-        '${currentDate}'
-      );
-    `)
+  async up (queryInterface, Sequelize) {
+    return await models.Entity.create({
+      name: '3PM',
+      description: 'DHIS 2 lets you manage aggregate data with a flexible data model and advanced visualization features',
+      status: 'INACTIVE',
+      color: 'blue'
+    });
   },
 
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.sequelize.query(`DELETE FROM entities WHERE name = '3PM';`)
+  async down (queryInterface, Sequelize) {
+    return await models.Entity.destroy({ where: { name: '3PM' }});
   }
 };

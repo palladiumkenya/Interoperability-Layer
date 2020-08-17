@@ -1,19 +1,16 @@
 'use strict';
 
-import dateFormat from 'dateformat'
+import models from '../models'
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    let currentDate = dateFormat(new Date(), 'yyyy-mm-dd HH:MM:ss');
-    return queryInterface.sequelize.query(`
-      INSERT INTO stats(name, value, description, createdAt, updatedAt)
-      VALUES
-        ('3PM_STATUS', 'offline', '', '${currentDate}', '${currentDate}'),
-        ('3PM_ADX_MESSAGETYPE', '0', '', '${currentDate}', '${currentDate}');
-    `)
+  async up (queryInterface, Sequelize) {
+    return await models.Stats.bulkCreate([
+      { name: '3PM_STATUS', value: 'offline', description: '' },
+      { name: '3PM_ADX_MESSAGETYPE', value: '0', description: '' },
+    ]);
   },
 
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.sequelize.query(`DELETE FROM stats WHERE name IN ('3PM_STATUS', '3PM_ADX_MESSAGETYPE');`)
+  async down (queryInterface, Sequelize) {
+    return await models.Stats.destroy({ where: { name: ['3PM_STATUS', '3PM_ADX_MESSAGETYPE'] }});
   }
 };
