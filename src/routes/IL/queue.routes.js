@@ -11,7 +11,7 @@ exports.register = (server, options, next) => {
     method: 'GET',
     handler: async (request, reply) => {
       try {
-        const queue = await models.Queue.findById(request.params.id)
+        const queue = await models.Queue.findByPk(request.params.id)
         queue ? reply(queue.message) : reply('')
       } catch (error) {
         logger.error(`Error fetching queue message by id: ${error}`)

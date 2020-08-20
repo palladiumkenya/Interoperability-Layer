@@ -34,7 +34,7 @@ exports.register = (server, options, next) => {
     method: 'GET',
     handler: (request, reply) => {
       models.MessageType
-        .findById(request.params.id)
+        .findByPk(request.params.id)
         .then((messageType) => messageType ? reply(messageType) : reply(Boom.notFound))
         .catch(error => {
           logger.error(`Error fetching message type by id: ${error}`)
