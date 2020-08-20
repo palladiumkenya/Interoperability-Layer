@@ -73,7 +73,7 @@ exports.register = (server, options, next) => {
           'ADX message successfully received by the Interoperability Layer (IL)',
         level: 'INFO'
       }
-      await saveXMLToQueue(Buffer.from(payload).toString(), '3PM^ADX')
+      await saveXMLToQueue(Buffer.from(payload).toString(), 'PPPM^ADX')
       reply({ msg: log.log })
     },
     config: {

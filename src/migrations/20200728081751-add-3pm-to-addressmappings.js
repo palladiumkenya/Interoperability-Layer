@@ -4,7 +4,7 @@ import models from '../models'
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const entity = await models.Entity.findOne({ where: { name: '3PM' }});
+    const entity = await models.Entity.findOne({ where: { name: 'PPPM' }});
     if (entity.id) {
       return await models.AddressMapping.create({
         EntityId: entity.id,
@@ -18,7 +18,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    const entity = await models.Entity.findOne({ where: { name: '3PM' }});
+    const entity = await models.Entity.findOne({ where: { name: 'PPPM' }});
     if (entity.id) {
       return await models.AddressMapping.destroy({ where: {
         EntityId: entity.id,
