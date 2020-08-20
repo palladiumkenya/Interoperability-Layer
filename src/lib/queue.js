@@ -223,6 +223,19 @@ const processQueued = async queue => {
           username: dhisUsername.dataValues.value,
           password: dhisPassword.dataValues.value
         }
+        
+        if (entity.name == 'PPPM') {
+          const [dhisImplementingMechanismID] = await models.Settings.findAll({
+            where: { description: entity.name + ' Implementing Mechanism ID' }
+          })
+          const imID = dhisImplementingMechanismID.dataValues.value;
+          if (imID) {
+            queue.message = queue.message.replace(
+              'dataSet="qzJqoxdfXJn"',
+              'dataSet="qzJqoxdfXJn" attributeOptionCombo="' + imID + '"'
+            );
+          }
+        }
 
         const response = await messageDispatcher.sendToDHIS2(
           address.address,
