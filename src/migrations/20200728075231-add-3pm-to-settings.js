@@ -7,6 +7,7 @@ module.exports = {
     return await models.Settings.bulkCreate([
       { value: null, description: 'PPPM Username', isUpdatable: true, display: true },
       { value: null, description: 'PPPM Password', isUpdatable: true, display: true },
+      { value: null, description: 'PPPM Implementing Mechanism ID', isUpdatable: true, display: true },
     ]);
   },
 
