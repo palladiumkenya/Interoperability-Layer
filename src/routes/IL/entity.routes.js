@@ -46,7 +46,7 @@ exports.register = (server, options, next) => {
     method: 'GET',
     handler: async (request, reply) => {
       try {
-        const entity = await models.Entity.findById(request.params.id)
+        const entity = await models.Entity.findByPk(request.params.id)
         entity ? reply(entity) : reply(Boom.notFound)
       } catch (error) {
         logger.error(`Error fetching entity by id: ${error}`)

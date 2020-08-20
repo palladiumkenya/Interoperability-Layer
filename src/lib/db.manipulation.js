@@ -26,15 +26,13 @@ export const getSubscribedMessageTypes = async entity => {
 }
 
 export const getEntityFromSubscription = async subscription => {
-  const entity = await models.Entity.findById(subscription.EntityId)
+  const entity = await models.Entity.findByPk(subscription.EntityId)
   return entity
 }
 
 export const getMessageTypeObj = async messageTypeName => {
   const [messageType] = await models.MessageType.findAll({
-    where: {
-      $or: [{ verboseName: messageTypeName }, { name: messageTypeName }]
-    }
+    where: { name: messageTypeName }
   })
 
   return messageType

@@ -79,7 +79,7 @@ const processQueued = async queue => {
       const messageTypeName = getMessageTypeName(payload)
       const [messageType, entity] = await Promise.all([
         getMessageTypeObj(messageTypeName),
-        models.Entity.findById(queue.EntityId)
+        models.Entity.findByPk(queue.EntityId)
       ])
       const [addressMapping] = await models.AddressMapping.findAll({
         where: { EntityId: entity.id }
