@@ -1,7 +1,3 @@
-import models from '../models'
-
-export const seedStats = () => models.Stats.bulkCreate(stats)
-
 export const stats = [
   /** Messages exchanged per message type */
   { id: 1, name: 'PATIENT_REGISTRATION_MESSAGETYPE', value: '0', description: '' },

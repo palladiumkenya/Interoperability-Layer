@@ -1,7 +1,3 @@
-import models from '../models'
-
-export const seedSettings = () => models.Settings.bulkCreate(settings)
-
 export const settings = [
   {
     id: 1,
