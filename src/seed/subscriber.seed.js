@@ -1,8 +1,4 @@
-import models from '../models'
-
-export const seedSubscribers = () => models.Subscriber.bulkCreate(messageSubscribers)
-
-const messageSubscribers = [
+export const messageSubscribers = [
   /** IQCARE */
   { EntityId: 1, MessageTypeId: 1 },
   { EntityId: 1, MessageTypeId: 2 },
