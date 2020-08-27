@@ -1,7 +1,3 @@
-import models from '../models'
-
-export const seedaddressMappings = () => models.AddressMapping.bulkCreate(addressMappings)
-
 export const addressMappings = [
   {
     id: 1,
