@@ -8,12 +8,21 @@ import {
 import { messageDispatcher } from '../routes/DAD/messagedispatcher'
 import { updateNumericStats, updateMsgStats } from './stats.logic'
 import { logger } from '../utils/logger.utils'
+import * as Op from 'sequelize'
 
 export let READY_FOR_NEXT_BATCH = true
+export let IL_LIMIT = 200
 
 export const queueManager = () => {
   setInterval(async () => {
     try {
+      const ilLimit = await models.Settings.findOne({
+        where: { description: 'il_maximum_message_attempts' }
+      })
+      if (ilLimit) {
+        IL_LIMIT = ilLimit.value
+      }
+
       if (READY_FOR_NEXT_BATCH) {
         READY_FOR_NEXT_BATCH = false
         await processAllQueued()
@@ -49,7 +58,7 @@ const updateLog = async (queue, level, log) => {
 const processAllQueued = async () => {
   const limit = 50
   let queuedMessages = await models.Queue.findAll({
-    where: { status: 'QUEUED' },
+    where: { status: 'QUEUED', noOfAttempts: { [Op.lte]: IL_LIMIT } },
     limit,
     order: [['priority', 'ASC'], ['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
   })
@@ -223,8 +232,8 @@ const processQueued = async queue => {
           username: dhisUsername.dataValues.value,
           password: dhisPassword.dataValues.value
         }
-        
-        if (entity.name == 'PPPM') {
+
+        if (entity.name === 'PPPM') {
           const [dhisImplementingMechanismID] = await models.Settings.findAll({
             where: { description: entity.name + ' Implementing Mechanism ID' }
           })
