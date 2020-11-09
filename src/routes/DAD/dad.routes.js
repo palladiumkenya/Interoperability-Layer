@@ -12,20 +12,11 @@ exports.register = (server, options, next) => {
     method: 'POST',
     handler: async (request, reply) => {
       let { payload } = request
-      let log = {
-        log:
-          'ADX message successfully received by the Interoperability Layer (IL)',
-        level: 'INFO'
-      }
-      await saveXMLToQueue(Buffer.from(payload).toString(), 'MOH731^ADX')
-      reply({ msg: log.log })
+      const response = await savePayload(JSON.stringify(payload))
+      reply(response)
     },
     config: {
-      payload: {
-        parse: false,
-        allow: 'application/adx+xml'
-      },
-      description: 'The endpoint for receiving incoming ADX messages for MOH 731.',
+      description: 'The endpoint for receiving incoming messages.',
       tags: ['entity', 'participating system'],
       notes: 'should return the created entity',
       cors: {
@@ -33,6 +24,16 @@ exports.register = (server, options, next) => {
         additionalHeaders: ['cache-control', 'x-requested-with']
       }
     }
+  })
+
+  ILServer.ext('onRequest', function (request, reply) {
+    if (
+      request.method === 'post' &&
+      request.headers['content-type'] === 'application/adx+xml'
+    ) {
+      request.setUrl('/api/adx')
+    }
+    return reply.continue()
   })
 
   ILServer.route({
