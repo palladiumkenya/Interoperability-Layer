@@ -1,0 +1,28 @@
+version: "2"
+
+services:
+
+  interlop:
+
+    image: cicdapplication/theil
+
+    container_name: interlop
+
+    restart: always
+
+    ports:
+
+      - 3003:3003
+      - 1400:1433
+      - 3007:3007
+      - 5000:5000
+      - 9721:9721
+
+    volumes:
+
+      - interop-volume:/var/lib/interop
+
+
+volumes:
+
+  interop-volume:

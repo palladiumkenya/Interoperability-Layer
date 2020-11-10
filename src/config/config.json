@@ -1,15 +1,12 @@
 {
-  "development": {
+  "production": {
     "username": "sa",
-    "password": "c0nstella",
-    "database": "interopdb",
+    "password": "M@un1983",
+    "database": "interopdbDev",
     "host": "localhost",
     "dialect": "mssql",
-    "logging": false,
-    "operatorsAliases": false,
-    "options": {
-      "instanceName": "SQLEXPRESS"
-    }
+    "logging": true,
+    "operatorsAliases": false
   },
   "test": {
     "dialect": "sqlite",
@@ -23,11 +20,12 @@
       "idle": "10000"
     }
   },
-  "production": {
-    "username": "sa",
-    "password": "maun",
-    "database": "interopdb_dev",
+  "development": {
+    "username": "root",
+    "password": "R6r?k7",
+    "database": "interopdb",
     "host": "localhost",
+    "port": 3309,
     "dialect": "mysql",
     "logging": false,
     "operatorsAliases": false

@@ -1,5 +1,6 @@
 import models from '../models'
 import { getDayOfWeek } from '../routes/DAD/message.manipulation'
+import { logger } from '../utils/logger.utils'
 
 export const getSubscribedEntities = async messageType => {
   const entities = await messageType.getEntities({
@@ -25,15 +26,13 @@ export const getSubscribedMessageTypes = async entity => {
 }
 
 export const getEntityFromSubscription = async subscription => {
-  const entity = await models.Entity.findById(subscription.EntityId)
+  const entity = await models.Entity.findByPk(subscription.EntityId)
   return entity
 }
 
 export const getMessageTypeObj = async messageTypeName => {
   const [messageType] = await models.MessageType.findAll({
-    where: {
-      $or: [{ verboseName: messageTypeName }, { name: messageTypeName }]
-    }
+    where: { name: messageTypeName }
   })
 
   return messageType
@@ -64,4 +63,22 @@ export const updateStats = async messageType => {
     )
   ])
   return updatedStats
+}
+
+export const bulkCreateOrUpdate = (context, values) => {
+  values.forEach(v => createOrUpdate(context, v, { id: v.id }))
+}
+
+export const createOrUpdate = (context, values, condition) => {
+  return context
+    .findOne({ where: condition })
+    .then(function (obj) {
+      if (obj) { // update
+        logger.info(`Updating Entities...${values.id}`)
+        return obj.update(values)
+      } else { // insert
+        logger.info(`Creating NEW Entities...`)
+        return models.Entity.create(values)
+      }
+    })
 }

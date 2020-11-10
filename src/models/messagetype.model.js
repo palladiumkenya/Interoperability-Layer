@@ -18,6 +18,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.ENUM,
       values: ['ACTIVE', 'INACTIVE'],
       defaultValue: 'ACTIVE'
+    },
+    priority: {
+      type: DataTypes.ENUM,
+      values: ['1', '2', '3'],
+      defaultValue: '1'
     }
   })
 

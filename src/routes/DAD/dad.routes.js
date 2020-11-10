@@ -46,7 +46,7 @@ exports.register = (server, options, next) => {
           'ADX message successfully received by the Interoperability Layer (IL)',
         level: 'INFO'
       }
-      await saveXMLToQueue(Buffer.from(payload).toString())
+      await saveXMLToQueue(Buffer.from(payload).toString(), 'MOH731^ADX')
       reply({ msg: log.log })
     },
     config: {
@@ -54,7 +54,35 @@ exports.register = (server, options, next) => {
         parse: false,
         allow: 'application/adx+xml'
       },
-      description: 'The endpoint for receiving incoming ADX messages.',
+      description: 'The endpoint for receiving incoming ADX messages for MOH 731.',
+      tags: ['entity', 'participating system'],
+      notes: 'should return the created entity',
+      cors: {
+        origin: ['*'],
+        additionalHeaders: ['cache-control', 'x-requested-with']
+      }
+    }
+  })
+
+  ILServer.route({
+    path: '/api/3pm',
+    method: 'POST',
+    handler: async (request, reply) => {
+      let { payload } = request
+      let log = {
+        log:
+          'ADX message successfully received by the Interoperability Layer (IL)',
+        level: 'INFO'
+      }
+      await saveXMLToQueue(Buffer.from(payload).toString(), 'PPPM^ADX')
+      reply({ msg: log.log })
+    },
+    config: {
+      payload: {
+        parse: false,
+        allow: 'application/adx+xml'
+      },
+      description: 'The endpoint for receiving incoming ADX messages for 3PM.',
       tags: ['entity', 'participating system'],
       notes: 'should return the created entity',
       cors: {
