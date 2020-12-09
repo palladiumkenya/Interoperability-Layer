@@ -64,5 +64,11 @@ export const settings = [
     value: 'maun2806;',
     isUpdatable: false,
     display: false
+  }, {
+    id: 12,
+    description: 'il_maximum_message_attempts',
+    value: 200,
+    isUpdatable: true,
+    display: true
   }
 ]
