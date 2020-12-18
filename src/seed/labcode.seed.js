@@ -1,7 +1,3 @@
-import models from '../models'
-
-export const seedLabCodes = () => models.LabCode.bulkCreate(labCodes)
-
 export const labCodes = [
   // SAMPLE_TYPE
   {id: '1', codeType: 'SAMPLE_TYPE', codeKey: '1', codeName: 'Frozen plasma'},

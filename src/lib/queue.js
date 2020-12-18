@@ -8,12 +8,21 @@ import {
 import { messageDispatcher } from '../routes/DAD/messagedispatcher'
 import { updateNumericStats, updateMsgStats } from './stats.logic'
 import { logger } from '../utils/logger.utils'
+import * as Op from 'sequelize'
 
 export let READY_FOR_NEXT_BATCH = true
+export let IL_LIMIT = 200
 
 export const queueManager = () => {
   setInterval(async () => {
     try {
+      const ilLimit = await models.Settings.findOne({
+        where: { description: 'il_maximum_message_attempts' }
+      })
+      if (ilLimit) {
+        IL_LIMIT = ilLimit.value
+      }
+
       if (READY_FOR_NEXT_BATCH) {
         READY_FOR_NEXT_BATCH = false
         await processAllQueued()
@@ -49,9 +58,9 @@ const updateLog = async (queue, level, log) => {
 const processAllQueued = async () => {
   const limit = 50
   let queuedMessages = await models.Queue.findAll({
-    where: { status: 'QUEUED' },
+    where: { status: 'QUEUED', noOfAttempts: { [Op.lte]: IL_LIMIT } },
     limit,
-    order: [['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
+    order: [['priority', 'ASC'], ['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
   })
 
   let queuedMessagesFirstHalf = queuedMessages.splice(
@@ -79,7 +88,7 @@ const processQueued = async queue => {
       const messageTypeName = getMessageTypeName(payload)
       const [messageType, entity] = await Promise.all([
         getMessageTypeObj(messageTypeName),
-        models.Entity.findById(queue.EntityId)
+        models.Entity.findByPk(queue.EntityId)
       ])
       const [addressMapping] = await models.AddressMapping.findAll({
         where: { EntityId: entity.id }
@@ -207,14 +216,14 @@ const processQueued = async queue => {
       }
     } else {
       try {
+        const [entity] = await models.Entity.findAll({
+          where: { id: queue.EntityId }
+        })
         const [dhisUsername] = await models.Settings.findAll({
-          where: { description: 'DHIS2 Username' }
+          where: { description: entity.name + ' Username' }
         })
         const [dhisPassword] = await models.Settings.findAll({
-          where: { description: 'DHIS2 Password' }
-        })
-        const [entity] = await models.Entity.findAll({
-          where: { name: 'DHIS2' }
+          where: { description: entity.name + ' Password' }
         })
         const [address] = await models.AddressMapping.findAll({
           where: { EntityId: entity.id }
@@ -224,6 +233,19 @@ const processQueued = async queue => {
           password: dhisPassword.dataValues.value
         }
 
+        if (entity.name === 'PPPM') {
+          const [dhisImplementingMechanismID] = await models.Settings.findAll({
+            where: { description: entity.name + ' Implementing Mechanism ID' }
+          })
+          const imID = dhisImplementingMechanismID.dataValues.value;
+          if (imID) {
+            queue.message = queue.message.replace(
+              'dataSet="qzJqoxdfXJn"',
+              'dataSet="qzJqoxdfXJn" attributeOptionCombo="' + imID + '"'
+            );
+          }
+        }
+
         const response = await messageDispatcher.sendToDHIS2(
           address.address,
           queue.message,
@@ -231,7 +253,7 @@ const processQueued = async queue => {
         )
 
         if (response.ok) {
-          let sentLog = `MOH 731 ADX message sent to ${
+          let sentLog = `ADX message sent to ${
             entity.name
           } successfully! Total send attempts: ${queue.noOfAttempts + 1}.`
           const statsChanges = [
@@ -253,12 +275,12 @@ const processQueued = async queue => {
         }
       } catch (error) {
         const [entity] = await models.Entity.findAll({
-          where: { name: 'DHIS2' }
+          where: { id: queue.EntityId }
         })
         const [address] = await models.AddressMapping.findAll({
           where: { EntityId: entity.id }
         })
-        let queueLog = `An attempt was made to send MOH 731 ADX message to ${
+        let queueLog = `An attempt was made to send ADX message to ${
           entity.name
         } (Address: ${
           address.address
