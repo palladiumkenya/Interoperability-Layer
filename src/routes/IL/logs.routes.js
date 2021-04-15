@@ -2,6 +2,7 @@ import Boom from 'boom'
 
 import models from '../../models'
 import { logger } from '../../utils/logger.utils'
+import Op from 'sequelize/lib/operators'
 
 exports.register = (server, options, next) => {
   const ILServer = server.select('IL')
@@ -91,7 +92,7 @@ exports.register = (server, options, next) => {
         offset: offset,
         where: {
           log: {
-            $like: '%' + request.params.searchTerm + '%'
+            [Op.like]: '%' + request.params.searchTerm + '%'
           }
         },
         order: [['id', 'DESC']],
