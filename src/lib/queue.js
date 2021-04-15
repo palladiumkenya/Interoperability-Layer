@@ -58,9 +58,9 @@ const updateLog = async (queue, level, log) => {
 const processAllQueued = async () => {
   const limit = 50
   let queuedMessages = await models.Queue.findAll({
-    where: { status: 'QUEUED', noOfAttempts: { [Op.lte]: IL_LIMIT } },
+    where: { status: 'QUEUED' },
     limit,
-    order: [['priority', 'ASC'], ['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
+    order: [['priority', 'ASC'], ['statusCode', 'ASC'], ['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
   })
 
   let queuedMessagesFirstHalf = queuedMessages.splice(
@@ -130,7 +130,8 @@ const processQueued = async queue => {
             queue.update({
               status: 'SENT',
               sendDetails: sentLog,
-              noOfAttempts: `${queue.noOfAttempts + 1}`
+              noOfAttempts: `${queue.noOfAttempts + 1}`,
+              statusCode: 1
             }),
             updateNumericStats(statsChanges),
             updateLog(queue, 'INFO', sentLog)
@@ -155,7 +156,8 @@ const processQueued = async queue => {
 
           await queue.update({
             sendDetails: queueLog,
-            noOfAttempts: `${queue.noOfAttempts + 1}`
+            noOfAttempts: `${queue.noOfAttempts + 1}`,
+            statusCode: 3
           })
           client.end()
           client.destroy()
@@ -184,11 +186,31 @@ const processQueued = async queue => {
               queue.update({
                 status: 'SENT',
                 sendDetails: sentLog,
-                noOfAttempts: `${queue.noOfAttempts + 1}`
+                noOfAttempts: `${queue.noOfAttempts + 1}`,
+                statusCode: 1
               }),
               updateNumericStats(statsChanges),
               updateLog(queue, 'INFO', sentLog)
             ])
+          } else if (response.status >= 400 && response.status <= 451) {
+            let queueLog = `An attempt was made to send ${messageType.verboseName.replace(
+              /_/g,
+              ' '
+            )} message (${identifier.IDENTIFIER_TYPE} : ${identifier.ID}) to ${
+              entity.name
+            } (Address: ${
+              addressMapping.address
+            }), but the system was unavailable. This message has been queued`
+
+            if (queue.noOfAttempts === 0) {
+              await updateLog(queue, 'WARNING', queueLog)
+            }
+
+            await queue.update({
+              sendDetails: queueLog,
+              noOfAttempts: `${queue.noOfAttempts + 1}`,
+              statusCode: 2
+            })
           } else {
             throw response
           }
@@ -210,7 +232,8 @@ const processQueued = async queue => {
 
           await queue.update({
             sendDetails: queueLog,
-            noOfAttempts: `${queue.noOfAttempts + 1}`
+            noOfAttempts: `${queue.noOfAttempts + 1}`,
+            statusCode: 3
           })
         }
       }
@@ -265,11 +288,34 @@ const processQueued = async queue => {
             queue.update({
               status: 'SENT',
               sendDetails: sentLog,
-              noOfAttempts: `${queue.noOfAttempts + 1}`
+              noOfAttempts: `${queue.noOfAttempts + 1}`,
+              statusCode: 1
             }),
             updateNumericStats(statsChanges),
             updateLog(queue, 'INFO', sentLog)
           ])
+        } else if (response.status >= 400 && response.status <= 451) {
+          const [entity] = await models.Entity.findAll({
+            where: { id: queue.EntityId }
+          })
+          const [address] = await models.AddressMapping.findAll({
+            where: { EntityId: entity.id }
+          })
+          let queueLog = `An attempt was made to send ADX message to ${
+            entity.name
+          } (Address: ${
+            address.address
+          }), but the system was unavailable. This message has been queued`
+
+          if (queue.noOfAttempts === 0) {
+            await updateLog(queue, 'WARNING', queueLog)
+          }
+
+          await queue.update({
+            sendDetails: queueLog,
+            noOfAttempts: `${queue.noOfAttempts + 1}`,
+            statusCode: 2
+          })
         } else {
           throw response
         }
@@ -294,7 +340,8 @@ const processQueued = async queue => {
 
         await queue.update({
           sendDetails: queueLog,
-          noOfAttempts: `${queue.noOfAttempts + 1}`
+          noOfAttempts: `${queue.noOfAttempts + 1}`,
+          statusCode: 3
         })
       }
     }
