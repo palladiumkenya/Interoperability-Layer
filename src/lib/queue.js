@@ -8,7 +8,6 @@ import {
 import { messageDispatcher } from '../routes/DAD/messagedispatcher'
 import { updateNumericStats, updateMsgStats } from './stats.logic'
 import { logger } from '../utils/logger.utils'
-import * as Op from 'sequelize'
 
 export let READY_FOR_NEXT_BATCH = true
 export let IL_LIMIT = 200
@@ -58,10 +57,29 @@ const updateLog = async (queue, level, log) => {
 const processAllQueued = async () => {
   const limit = 50
   let queuedMessages = await models.Queue.findAll({
-    where: { status: 'QUEUED' },
+    where: { status: 'QUEUED', statusCode: 1 },
     limit,
-    order: [['priority', 'ASC'], ['statusCode', 'ASC'], ['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
+    order: [['priority', 'ASC']]
   })
+
+  if (queuedMessages.length > 0) {
+    logger.info(`sending: ${queuedMessages.length} initial APIs try`)
+  }
+
+  if (queuedMessages.length === 0) {
+    const withoutErrors = 0
+    queuedMessages = await models.Queue.findAll({
+      where: { status: 'QUEUED', statusCode: [2, 3] },
+      limit,
+      order: [['statusCode', 'ASC'], ['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
+    })
+
+    if (withoutErrors === 0 && queuedMessages.length === 0) {
+      logger.info(`Interoperability layer did not find any messages to send`)
+    } else if (queuedMessages.length > 0) {
+      logger.info(`trying to send: ${queuedMessages.length} messages which had previously encountered an error`)
+    }
+  }
 
   let queuedMessagesFirstHalf = queuedMessages.splice(
     0,
