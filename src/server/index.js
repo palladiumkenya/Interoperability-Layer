@@ -9,7 +9,7 @@ import { logger } from '../utils/logger.utils'
 import { AppPorts } from '../config/constants'
 import { tcpServer } from '../routes/DAD/dad.tcp'
 
-import manifest from '../config/manifest.json'
+import manifest from '../config/manifest'
 import { ZooKeeper } from '../lib/zookeeper'
 
 const options = {
