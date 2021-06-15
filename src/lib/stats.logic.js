@@ -29,9 +29,10 @@ export const updateEntitiesStatus = async () => {
   for (let client of clients) {
     let status = await isLocalAddress(client) ? 'online' : 'offline'
     if (status === 'offline') {
-      ping.sys.probe(client.address.split(':')[0], (isAlive) => {
-        status = isAlive ? 'online' : 'offline'
-      })
+      const urlObject = new URL(client.address);
+      const hostName = urlObject.hostname;
+      let isAlive = await ping.promise.probe(hostName);
+      status = isAlive.alive ? 'online' : 'offline'
     }
     models.Stats.update({ value: status }, {
       where: {
@@ -67,7 +68,7 @@ export const checkSystemsStatus = () => {
     } catch (error) {
       logger.error(`Error while checking system status: ${error}`)
     }
-  }, 1000 * 60 * 5)
+  }, 300000)
 }
 
 export const getEntitiesStatus = async () => {
