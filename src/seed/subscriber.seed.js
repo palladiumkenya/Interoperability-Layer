@@ -29,6 +29,7 @@ export const messageSubscribers = [
   { EntityId: 4, MessageTypeId: 1 },
   { EntityId: 4, MessageTypeId: 2 },
   { EntityId: 4, MessageTypeId: 5 },
+  { EntityId: 4, MessageTypeId: 7 },
 
   /** MPI */
   { EntityId: 7, MessageTypeId: 1 },
