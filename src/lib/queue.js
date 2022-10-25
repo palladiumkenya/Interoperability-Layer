@@ -8,30 +8,26 @@ import {
 import { messageDispatcher } from '../routes/DAD/messagedispatcher'
 import { updateNumericStats, updateMsgStats } from './stats.logic'
 import { logger } from '../utils/logger.utils'
+const cron = require('node-cron')
+const { Op } = require('sequelize')
 
 export let READY_FOR_NEXT_BATCH = true
 export let IL_LIMIT = 200
 
 export const queueManager = () => {
-  setInterval(async () => {
-    try {
-      const ilLimit = await models.Settings.findOne({
-        where: { description: 'il_maximum_message_attempts' }
-      })
-      if (ilLimit) {
-        IL_LIMIT = ilLimit.value
-      }
-
-      if (READY_FOR_NEXT_BATCH) {
-        READY_FOR_NEXT_BATCH = false
-        await processAllQueued()
-      }
-    } catch (error) {
-      logger.error(error)
-    }
-  }, 1000 * 5)
+  // setting a cron job for every 10 seconds
+  cron.schedule('*/10 * * * * *', function () {
+    queueTask()
+  })
 }
 
+const queueTask = async () => {
+  try {
+    await processAllQueued()
+  } catch (error) {
+    logger.error('QUEUE Processing Error: ' + error)
+  }
+}
 const updateLog = async (queue, level, log) => {
   const logs = await models.Logs.findAll({ where: { QueueId: queue.id } })
   const updatedLog = {
@@ -69,7 +65,7 @@ const processAllQueued = async () => {
   if (queuedMessages.length === 0) {
     const withoutErrors = 0
     queuedMessages = await models.Queue.findAll({
-      where: { status: 'QUEUED', statusCode: [2, 3] },
+      where: { status: 'QUEUED', statusCode: [2, 3], noOfAttempts: { [Op.lte]: 10 } },
       limit,
       order: [['statusCode', 'ASC'], ['noOfAttempts', 'ASC'], ['updatedAt', 'ASC']]
     })
