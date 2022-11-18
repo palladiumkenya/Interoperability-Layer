@@ -10,7 +10,7 @@ import { updateNumericStats, updateMsgStats } from './stats.logic'
 import { logger } from '../utils/logger.utils'
 
 export let READY_FOR_NEXT_BATCH = true
-export let IL_LIMIT = 200
+export let IL_LIMIT = 15
 
 export const queueManager = () => {
   setInterval(async () => {
